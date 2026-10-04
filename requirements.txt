@@ -12,7 +12,7 @@ folium==0.15.1
 
 # Visualization
 streamlit==1.29.0
-pydeck==0.8.1
+pydeck==0.9.1
 matplotlib==3.8.2
 seaborn==0.13.1
 plotly==5.18.0

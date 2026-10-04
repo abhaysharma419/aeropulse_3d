@@ -46,14 +46,13 @@ venv.bak/
 .DS_Store
 Thumbs.db
 
-# Data files (raw data)
-data/raw/*
+# Data files - ignore all data but keep directory structure
+data/
+!data/.gitkeep
 !data/raw/.gitkeep
-
-# Processed data (keep structure)
-data/processed/*.csv
-data/processed/*.json
-data/processed/*.parquet
+!data/processed/.gitkeep
+!data/interim/.gitkeep
+!data/external/.gitkeep
 
 # Logs
 *.log

@@ -12,9 +12,12 @@ services:
       - ./scripts:/home/jovyan/work/scripts
       - ./data:/home/jovyan/work/data
       - ./dashboard:/home/jovyan/work/dashboard
+      - ./requirements.txt:/home/jovyan/work/requirements.txt
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - GRANT_SUDO=yes
+      - JUPYTER_TOKEN=abc123
+      - JUPYTER_PASSWORD=
     networks:
       - aeropulse_net
 

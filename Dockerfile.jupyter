@@ -1,0 +1,55 @@
+FROM jupyter/pyspark-notebook:spark-3.5.0
+
+# Copy requirements file
+COPY requirements.txt /home/jovyan/work/requirements.txt
+
+# Install system dependencies first (needed for geopandas, h3)
+USER root
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libgdal-dev \
+    gdal-bin \
+    libspatialindex-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+USER jovyan
+
+# Install Python dependencies with retries and timeout handling
+# Split into smaller groups to avoid timeouts
+RUN pip install --no-cache-dir --default-timeout=100 \
+    pyspark==3.5.0 \
+    delta-spark==3.1.0 \
+    pandas==2.1.4 \
+    numpy==1.26.3 \
+    pyarrow==14.0.2 \
+    requests==2.31.0 \
+    tenacity==8.2.3 \
+    python-dotenv==1.0.0 \
+    pydantic==2.5.3
+
+RUN pip install --no-cache-dir --default-timeout=100 \
+    h3==4.0.0b5 \
+    geopandas==0.14.2 \
+    shapely==2.0.2 \
+    folium==0.15.1
+
+RUN pip install --no-cache-dir --default-timeout=100 \
+    streamlit==1.29.0 \
+    pydeck==0.8.1 \
+    matplotlib==3.8.2 \
+    seaborn==0.13.1 \
+    plotly==5.18.0
+
+RUN pip install --no-cache-dir --default-timeout=100 \
+    ipywidgets==8.1.1 \
+    jupyterlab==4.0.10 \
+    jupyter-contrib-nbextensions==0.7.0
+
+RUN pip install --no-cache-dir --default-timeout=100 \
+    pytest==7.4.3 \
+    black==23.12.1 \
+    flake8==7.0.0 \
+    great-expectations==0.18.8
+
+# Install Hadoop-aws and aws-java-sdk for S3 support (optional)
+RUN pip install --no-cache-dir hadoop-aws==3.3.4 aws-java-sdk==1.12.168
